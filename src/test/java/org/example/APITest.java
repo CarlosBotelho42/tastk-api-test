@@ -2,9 +2,13 @@ package org.example;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import org.apache.http.client.utils.DateUtils;
 import org.hamcrest.CoreMatchers;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import java.time.LocalDate;
+import java.util.Date;
 
 public class APITest {
 
@@ -24,8 +28,12 @@ public class APITest {
 
     @Test
     public void shouldAddTaskWithSuccess(){
+
+        LocalDate localDate = LocalDate.now().plusDays(1);
+        String tomorrowDate = String.valueOf(localDate);
+
         RestAssured.given()
-                .body(" { \"task\": \"Teste via API\", \"dueDate\": \"2024-12-29\" }")
+                .body(" { \"task\": \"Teste via API\", \"dueDate\": \""+ tomorrowDate + "\" }")
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/todo")
